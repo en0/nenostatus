@@ -3,6 +3,8 @@
 #include <string.h>
 
 #include "cli.h"
+#include "collectors/dummy.h"
+#include "core.h"
 
 
 static CliArgs parse_args(int argc, char* argv[]) {
@@ -21,7 +23,6 @@ static CliArgs parse_args(int argc, char* argv[]) {
     }
     return ret;
 }
-
 
 static void show_help(char *prog, FILE *file) {
     fprintf(file,
@@ -60,6 +61,16 @@ static int run(CommandLine *self, int argc, char *argv[]) {
 
     // TODO: Call make program.
     fprintf(self->out, "Ok, looks like it works.");
+
+    // This is all testing crap
+    OutputStrategy op = new_console_output();
+    DummyCollector dc = new_dummy_collector("dummy", 1);
+    MetricCollector *collectors[] = {
+        (MetricCollector *)&dc,
+    };
+
+    MetricManager mc = new_metric_manager(&op, collectors, 1);
+    mc.run(&mc);
 
 	return EXIT_SUCCESS;
 }

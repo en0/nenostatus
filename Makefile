@@ -1,8 +1,8 @@
 CC = gcc
 CFLAGS = -Wall -Iinclude
-SRC = $(filter-out src/main.c, $(wildcard src/*.c))
+SRC = $(filter-out src/main.c, $(wildcard src/*.c)) $(wildcard src/core/*.c) $(wildcard src/collectors/*.c)
 OBJ = $(SRC:.c=.o)
-TESTS = $(wildcard tests/*.c)
+TESTS = $(wildcard tests/*.c) $(wildcard tests/core/*.c) $(wildcard tests/collectors/*.c) $(wildcard tests/fixtures/*.c)
 TEST_OBJ = $(TESTS:.c=.o)
 TEST_LIBS = -lcunit
 BIN=nenostatus
@@ -26,7 +26,7 @@ src/%.o: src/%.c
 
 tests/%.o: tests/%.c
 	@echo CC $@
-	@$(CC) $(CFLAGS) $(TEST_LIBS) -c $< -o $@
+	@$(CC) -Itests/include $(CFLAGS) $(TEST_LIBS) -c $< -o $@
 
 tests: $(TEST_BIN)
 	@echo EXEC $<

@@ -2,7 +2,6 @@
 #include <CUnit/Basic.h>
 #include <CUnit/TestDB.h>
 #include <stdio.h>
-#include <stdlib.h>
 
 #include "cli.h"
 
@@ -84,7 +83,7 @@ static void test_show_help() {
 }
 
 void cli_test_suite() {
-	CU_pSuite suite = CU_add_suite("Cli Test Suite", setup, teardown);
+	CU_pSuite suite = CU_add_suite("core/cli Test Suite", setup, teardown);
 
     // parse_args
 	CU_add_test(suite, "[parse_args()]", test_parse_args_defaults);
