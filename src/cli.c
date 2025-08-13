@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "cli.h"
 #include "collectors/dummy.h"
@@ -59,18 +60,26 @@ static int run(CommandLine *self, int argc, char *argv[]) {
         return EXIT_INVALID_ARG;
     }
 
-    // TODO: Call make program.
-    fprintf(self->out, "Ok, looks like it works.");
+    DummyCollector dc1 = new_dummy_collector("CPU", 19);
+    DummyCollector dc2 = new_dummy_collector("MEM", 20);
+    DummyCollector dc3 = new_dummy_collector("DISK", 200);
 
-    // This is all testing crap
+    // TODO: get display from opts which gets it from env or args.
+    //OutputStrategy op = opts.use_stdout ? new_xsetroot_output(":0") : new_console_output();
     OutputStrategy op = new_console_output();
-    DummyCollector dc = new_dummy_collector("dummy", 1);
     MetricCollector *collectors[] = {
-        (MetricCollector *)&dc,
+        (MetricCollector *)&dc1,
+        (MetricCollector *)&dc2,
+        (MetricCollector *)&dc3,
     };
 
-    MetricManager mc = new_metric_manager(&op, collectors, 1);
-    mc.run(&mc);
+    MetricManager mc = new_metric_manager(
+        &op,
+        collectors,
+        sizeof(collectors)/sizeof(MetricCollector *)
+    );
+
+    for (;;sleep(1)) mc.update(&mc);
 
 	return EXIT_SUCCESS;
 }

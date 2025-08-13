@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Iinclude
+CFLAGS = -Wall -Iinclude -lX11
 SRC = $(filter-out src/main.c, $(wildcard src/*.c)) $(wildcard src/core/*.c) $(wildcard src/collectors/*.c)
 OBJ = $(SRC:.c=.o)
 TESTS = $(wildcard tests/*.c) $(wildcard tests/core/*.c) $(wildcard tests/collectors/*.c) $(wildcard tests/fixtures/*.c)
@@ -40,10 +40,10 @@ watch:
 
 clean:
 	@echo RM src/*.o
-	@rm -f src/*.o
+	@rm -f $(OBJ)
 	@echo RM $(BIN)
 	@rm -f $(BIN)
 	@echo RM tests/*.o
-	@rm -f tests/*.o
+	@rm -f $(TEST_OBJ)
 	@echo RM $(TEST_BIN)
 	@rm -f $(TEST_BIN)

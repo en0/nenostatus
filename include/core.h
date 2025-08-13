@@ -2,10 +2,12 @@
 #define CORE_H
 
 #include <stdbool.h>
+#include <X11/Xlib.h>
 
 #define MAX_COLLECTOR_STATUS_SIZE 255
 #define MAX_COLLECTORS 64
 #define MAX_STATUS_SIZE (MAX_COLLECTOR_STATUS_SIZE * MAX_COLLECTORS)
+
 
  /**
  * MetricCollector Structure
@@ -34,6 +36,7 @@
 typedef struct MetricCollector MetricCollector;
 struct MetricCollector {
     void (*update)(MetricCollector *self);
+    void (*set_interval)(MetricCollector *self, int seconds);
     char status[MAX_COLLECTOR_STATUS_SIZE];
     int interval[2];
     const char *name;
@@ -59,6 +62,32 @@ struct MetricCollector {
 typedef struct OutputStrategy OutputStrategy;
 struct OutputStrategy {
     void (*set_status)(OutputStrategy *self, const char *status); };
+
+
+/**
+ * OutputStrategy for xsetroot
+ *
+ * This structure defines an interface for output strategies used by the
+ * MetricManager to handle the output of metric statuses. This instance
+ * will output status by setting the x diplsay's root window name.
+ *
+ * Members:
+ *
+ * - OutputStrategy base.
+ *   Base class for output strategies
+ *
+ * - Display *dpy.
+ *   The X Display window.
+ *
+ * - Display *dpy.
+ *   The root X Window.
+ */
+typedef struct XRootOutputStrategy XRootOutputStrategy;
+struct XRootOutputStrategy {
+    OutputStrategy base;
+    Display *dpy;
+    Window win;
+};
 
 /**
  * MetricManager Structure
@@ -92,7 +121,7 @@ struct OutputStrategy {
  */
 typedef struct MetricManager MetricManager;
 struct MetricManager{
-    void (*run)(MetricManager *self);
+    void (*update)(MetricManager *self);
     OutputStrategy *output_strategy;
     MetricCollector **collectors;
     int collector_count;
@@ -108,10 +137,31 @@ struct MetricManager{
 OutputStrategy new_console_output();
 
 /**
+ * Creates a new xroot output instance.
+ *
+ * @param display The name of the display.
+ * @return A XRootOutputStrategy instance.
+ */
+XRootOutputStrategy new_xsetroot_output(const char *display);
+
+/**
  * Creates a new MetricManager
  *
  * @return A MetricManager instance.
  */
 MetricManager new_metric_manager(OutputStrategy *output_strategy, MetricCollector **collectors, int count);
+
+
+/**
+ * Initialize a collector.
+ *
+ * This function should be called during the construction of a new collector.
+ *
+ * void new_custom_collector(...) {
+ *   MyCustomCollector ret = {.custom_variable = 1};
+ *   initialize_collector_base(&ret.base, "My Collector", 10, my_update);
+ * }
+ */
+void initialize_collector_base(MetricCollector *self, const char *name, int seconds, void (*update)(MetricCollector *self));
 
 #endif

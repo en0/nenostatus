@@ -3,12 +3,44 @@
 
 #include "core.h"
 
-static void run_step(MetricManager *self) {
+
+static void update(MetricManager *self) {
+
+    OutputStrategy *op = self->output_strategy;
+
     int offset = 0;
     self->status[0] = '\0';
+
     for (int i = 0; i < self->collector_count; i++) {
+
         MetricCollector *mc = self->collectors[i];
-        mc->update(mc);
+
+        /**
+         * Conditionally update the collector depending on the interval.
+         *
+         * interval = a, b
+         * a is the scheduled interval
+         * b is the current interval.
+         *
+         * if b = -1, update will never be called and b will never change.
+         * else if a = 0 and b = 0, update once. then be is set to -1
+         * else if a equals b, we trigger an update and reset b to 1
+         * else, we move the interval forward by incrementing b
+         */
+
+        if (mc->interval[1] == -1) {
+            // update never called.
+        } else if (mc->interval[0] == mc->interval[1]) {
+            mc->update(mc);
+            mc->interval[1] = mc->interval[0] > 0 ? 1 : -1;
+        } else {
+            mc->interval[1]++;
+        }
+
+        /**
+         * Append to the output status
+         * Keep track of the offset for the next collector.
+         */
         offset += snprintf(
             self->status + offset,
             sizeof(self->status) - offset,
@@ -17,19 +49,13 @@ static void run_step(MetricManager *self) {
             mc->status
         );
     }
+    op->set_status(op, self->status);
 }
 
-static void run(MetricManager *self) {
-    OutputStrategy *op = self->output_strategy;
-    while(true) {
-        run_step(self);
-        op->set_status(op, self->status);
-    }
-}
 
 MetricManager new_metric_manager(OutputStrategy *output_strategy, MetricCollector **collectors, int count) {
     return (MetricManager){
-        .run = run,
+        .update = update,
         .sep = " | ",
         .output_strategy = output_strategy,
         .collectors = collectors,

@@ -8,7 +8,7 @@
 static void test_dummy_defaults() {
     DummyCollector c = new_dummy_collector("dummy", 1);
     CU_ASSERT_EQUAL(c.base.name, "dummy");
-    CU_ASSERT_EQUAL(c.base.interval[0], 0);
+    CU_ASSERT_EQUAL(c.base.interval[0], 60);
     CU_ASSERT_EQUAL(c.base.interval[1], 60);
     CU_ASSERT_EQUAL(c.v, 1);
 }
