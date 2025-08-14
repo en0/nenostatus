@@ -1,6 +1,7 @@
 #ifndef CLI_H
 #define CLI_H
 
+#include "core.h"
 #define EXIT_INVALID_ARG -1
 
 #include <stdbool.h>
@@ -41,6 +42,8 @@ struct CommandLine {
     FILE *out;
     FILE *err;
     ArgumentParser *parser;
+    MetricCollector **collectors;
+    int count;
     int (*run)(CommandLine *self, int argc, char *argv[]);
 };
 
@@ -50,7 +53,9 @@ struct CommandLine {
  * @param out The file to use as stdout.
  * @param err The file to use as stderr.
  * @param parser the agrument parser to use.
+ * @param collectors available collectors.
+ * @param count number of collectors
  */
-CommandLine new_cli(FILE *out, FILE *err, ArgumentParser *parser);
+CommandLine new_cli(FILE *out, FILE *err, ArgumentParser *parser, MetricCollector **collectors, int count);
 
 #endif

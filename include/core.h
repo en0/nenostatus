@@ -63,32 +63,6 @@ typedef struct OutputStrategy OutputStrategy;
 struct OutputStrategy {
     void (*set_status)(OutputStrategy *self, const char *status); };
 
-
-/**
- * OutputStrategy for xsetroot
- *
- * This structure defines an interface for output strategies used by the
- * MetricManager to handle the output of metric statuses. This instance
- * will output status by setting the x diplsay's root window name.
- *
- * Members:
- *
- * - OutputStrategy base.
- *   Base class for output strategies
- *
- * - Display *dpy.
- *   The X Display window.
- *
- * - Display *dpy.
- *   The root X Window.
- */
-typedef struct XRootOutputStrategy XRootOutputStrategy;
-struct XRootOutputStrategy {
-    OutputStrategy base;
-    Display *dpy;
-    Window win;
-};
-
 /**
  * MetricManager Structure
  *
@@ -130,19 +104,12 @@ struct MetricManager{
 };
 
 /**
- * Creates a new ConsoleOutputStrategy instance.
+ * Creates a new output strategy
  *
  * @return A ConsoleOutputStrategy instance.
  */
 OutputStrategy new_console_output();
-
-/**
- * Creates a new xroot output instance.
- *
- * @param display The name of the display.
- * @return A XRootOutputStrategy instance.
- */
-XRootOutputStrategy new_xsetroot_output(const char *display);
+OutputStrategy new_xsetroot_output();
 
 /**
  * Creates a new MetricManager

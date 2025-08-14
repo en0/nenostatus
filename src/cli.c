@@ -4,7 +4,6 @@
 #include <unistd.h>
 
 #include "cli.h"
-#include "collectors/dummy.h"
 #include "core.h"
 
 
@@ -60,31 +59,21 @@ static int run(CommandLine *self, int argc, char *argv[]) {
         return EXIT_INVALID_ARG;
     }
 
-    DummyCollector dc1 = new_dummy_collector("CPU", 19);
-    DummyCollector dc2 = new_dummy_collector("MEM", 20);
-    DummyCollector dc3 = new_dummy_collector("DISK", 200);
-
-    // TODO: get display from opts which gets it from env or args.
-    //OutputStrategy op = opts.use_stdout ? new_xsetroot_output(":0") : new_console_output();
-    OutputStrategy op = new_console_output();
-    MetricCollector *collectors[] = {
-        (MetricCollector *)&dc1,
-        (MetricCollector *)&dc2,
-        (MetricCollector *)&dc3,
-    };
-
-    MetricManager mc = new_metric_manager(
-        &op,
-        collectors,
-        sizeof(collectors)/sizeof(MetricCollector *)
-    );
-
+    OutputStrategy op = opts.use_stdout ? new_console_output() : new_xsetroot_output();
+    MetricManager mc = new_metric_manager(&op, self->collectors, self->count);
     for (;;sleep(1)) mc.update(&mc);
 
 	return EXIT_SUCCESS;
 }
 
 
-CommandLine new_cli(FILE *out, FILE *err, ArgumentParser *parser) {
-    return (CommandLine){ .out = out, .err = err, parser = parser, .run = run };
+CommandLine new_cli(FILE *out, FILE *err, ArgumentParser *parser, MetricCollector **collectors, int count) {
+    return (CommandLine){
+        .out = out,
+        .err = err,
+        .parser = parser,
+        .run = run,
+        .collectors = collectors,
+        .count = count
+    };
 }
