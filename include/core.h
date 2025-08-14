@@ -99,7 +99,6 @@ struct MetricManager{
     OutputStrategy *output_strategy;
     MetricCollector **collectors;
     int collector_count;
-    const char *sep;
     char status[MAX_STATUS_SIZE];
 };
 

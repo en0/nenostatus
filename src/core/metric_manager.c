@@ -44,8 +44,7 @@ static void update(MetricManager *self) {
         offset += snprintf(
             self->status + offset,
             sizeof(self->status) - offset,
-            "%s%s",
-            i == 0 ? "" : self->sep,
+            "%s",
             mc->status
         );
     }
@@ -56,7 +55,6 @@ static void update(MetricManager *self) {
 MetricManager new_metric_manager(OutputStrategy *output_strategy, MetricCollector **collectors, int count) {
     return (MetricManager){
         .update = update,
-        .sep = " | ",
         .output_strategy = output_strategy,
         .collectors = collectors,
         .collector_count = count,

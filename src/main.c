@@ -1,18 +1,21 @@
 #include "cli.h"
 #include "core.h"
 #include "collectors/label.h"
+#include "collectors/battery.h"
 
 
 int main(int argc, char *argv[]) {
 
-    MetricCollector cpu_load = new_label("cpu: 100%");
-    MetricCollector memory = new_label("mem: 50%");
-    MetricCollector temp = new_label("temp: 75c");
+    MetricCollector sep = new_label("  ");
+    MetricCollector space = new_label(" ");
+
+    BatteryCollector bat0 = new_battery_collector("/sys/class/power_supply/BAT0");
 
     MetricCollector *collectors[] = {
-        (MetricCollector *)&cpu_load,
-        (MetricCollector *)&memory,
-        (MetricCollector *)&temp,
+        (MetricCollector *)&space,
+        (MetricCollector *)&bat0,
+        (MetricCollector *)&sep,
+        (MetricCollector *)&space,
     };
 
     ArgumentParser ap = new_cli_arg_parser();

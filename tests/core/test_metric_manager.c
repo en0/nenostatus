@@ -33,7 +33,7 @@ static int teardown() {
 static void test_metric_manager_calls_output() {
     output.reset(&output);
     unit.update(&unit);
-    CU_ASSERT_STRING_EQUAL(output.output, "d1 1 | d2 1 | d3 1");
+    CU_ASSERT_STRING_EQUAL(output.output, "d1 1d2 1d3 1");
     CU_ASSERT_EQUAL(output.call_count, 1);
 }
 
