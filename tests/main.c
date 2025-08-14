@@ -2,7 +2,7 @@
 #include <CUnit/Basic.h>
 
 void cli_test_suite();
-void collector_dummy_test_suite();
+void collector_label_test_suite();
 void core_metric_manager_test_suite();
 
 int main() {
@@ -10,7 +10,7 @@ int main() {
 
 	// Call the test suite functions to register tests
 	cli_test_suite();
-    collector_dummy_test_suite();
+    collector_label_test_suite();
     core_metric_manager_test_suite();
 
 	// Run all tests

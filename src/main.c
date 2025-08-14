@@ -1,17 +1,13 @@
 #include "cli.h"
-#include "collectors/dummy.h"
 #include "core.h"
+#include "collectors/label.h"
 
 
 int main(int argc, char *argv[]) {
 
-    DummyCollector cpu_load = new_dummy_collector("cpu", 1);
-    DummyCollector memory = new_dummy_collector("mem", 1);
-    DummyCollector temp = new_dummy_collector("temp", 1);
-
-    cpu_load.base.set_interval(&cpu_load.base, 2);
-    memory.base.set_interval(&memory.base, 3);
-    temp.base.set_interval(&temp.base, 4);
+    MetricCollector cpu_load = new_label("cpu: 100%");
+    MetricCollector memory = new_label("mem: 50%");
+    MetricCollector temp = new_label("temp: 75c");
 
     MetricCollector *collectors[] = {
         (MetricCollector *)&cpu_load,

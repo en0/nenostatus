@@ -70,7 +70,7 @@ static void test_metric_manager_never_calls_collector() {
 }
 
 void core_metric_manager_test_suite() {
-	CU_pSuite suite = CU_add_suite("core/metric_manager Test Suite", setup, teardown);
+	CU_pSuite suite = CU_add_suite("core/metric_manager", setup, teardown);
 	CU_ADD_TEST(suite, test_metric_manager_calls_output);
     CU_ADD_TEST(suite, test_metric_manager_calls_collector_on_every_cycle);
     CU_ADD_TEST(suite, test_metric_manager_calls_collector_on_every_other_cycle);

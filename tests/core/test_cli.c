@@ -83,16 +83,16 @@ static void test_show_help() {
 }
 
 void cli_test_suite() {
-	CU_pSuite suite = CU_add_suite("core/cli Test Suite", setup, teardown);
+	CU_pSuite suite = CU_add_suite("core/cli", setup, teardown);
 
     // parse_args
-	CU_add_test(suite, "[parse_args()]", test_parse_args_defaults);
-	CU_add_test(suite, "[parse_args(--help)]", test_parse_args_show_help);
-	CU_add_test(suite, "[parse_args(--stdout)]", test_parse_args_use_stdout);
-	CU_add_test(suite, "[parse_args(--help, --stdout)]", test_parse_args_use_stdout_show_help);
-	CU_add_test(suite, "[parse_args(--help, --stdout, --foo)]", test_parse_args_unknown_arg_index);
-	CU_add_test(suite, "[parse_args(--bar ,--stdout, --foo)]", test_parse_args_stops_on_first_unknown);
+	CU_ADD_TEST(suite, test_parse_args_defaults);
+	CU_ADD_TEST(suite, test_parse_args_show_help);
+	CU_ADD_TEST(suite, test_parse_args_use_stdout);
+	CU_ADD_TEST(suite, test_parse_args_use_stdout_show_help);
+	CU_ADD_TEST(suite, test_parse_args_unknown_arg_index);
+	CU_ADD_TEST(suite, test_parse_args_stops_on_first_unknown);
 
     // show_help
-    CU_add_test(suite, "[show_help (unittest, OUT)]", test_show_help);
+    CU_ADD_TEST(suite, test_show_help);
 }
