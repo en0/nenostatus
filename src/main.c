@@ -1,9 +1,10 @@
 #include "cli.h"
-#include "collectors/ip_address.h"
 #include "core.h"
+#include "collectors/ip_address.h"
 #include "collectors/date_time.h"
 #include "collectors/label.h"
 #include "collectors/battery.h"
+#include "collectors/memory_usage.h"
 
 
 int main(int argc, char *argv[]) {
@@ -14,10 +15,13 @@ int main(int argc, char *argv[]) {
     BatteryCollector bat0 = new_battery_collector("/sys/class/power_supply/BAT0");
     DateTimeCollector date_time_local = new_date_time_colector("%a %b %e %I:%M %p %Y");
     IPAddressCollector eno1 = new_ip_address_collector("wlp7s0");
+    MemoryUsageCollector mem = new_memory_usage_collector();
 
     MetricCollector *collectors[] = {
         (MetricCollector *)&space,
         (MetricCollector *)&eno1,
+        (MetricCollector *)&sep,
+        (MetricCollector *)&mem,
         (MetricCollector *)&sep,
         (MetricCollector *)&bat0,
         (MetricCollector *)&sep,
