@@ -46,8 +46,6 @@ static inline int iclamp(int value, int min, int max) {
 
 /**
  * Check if the hardware is present and installed.
- *
- * @return true if present. Else, false.
  */
 static bool is_present(BatteryCollector *self) {
 
@@ -67,8 +65,6 @@ static bool is_present(BatteryCollector *self) {
 
 /**
  * get the correct icon-set depending on the charginig status.
- *
- * @return A pointer to a icon set.
  */
 static const char **get_icons_set(BatteryCollector *self) {
 
@@ -98,9 +94,7 @@ static const char **get_icons_set(BatteryCollector *self) {
 }
 
 /**
- * Compute the battery percentage.
- *
- * @return -1 on error, else the current percentage of the battery.
+ * Compute the battery percentage. -1 indicates an error
  */
 static int get_battery_percent(BatteryCollector *self) {
     FILE *fp;

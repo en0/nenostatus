@@ -20,7 +20,7 @@ static void update(MetricCollector *self) {
     time_info = localtime(&raw_time);
 
     if (time_info == NULL) {
-        snprintf(self->status, MAX_COLLECTOR_STATUS_SIZE, "time module error");
+        snprintf(self->status, MAX_COLLECTOR_STATUS_SIZE, "COLLECTOR ERROR");
     } else {
         strftime(self->status, MAX_COLLECTOR_STATUS_SIZE, s->strfmt, time_info);
     }
