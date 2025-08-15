@@ -8,7 +8,7 @@ static void update(MetricManager *self) {
 
     OutputStrategy *op = self->output_strategy;
 
-    int offset = 0;
+    int offset = 0, updates = 0;
     self->status[0] = '\0';
 
     for (int i = 0; i < self->collector_count; i++) {
@@ -33,6 +33,7 @@ static void update(MetricManager *self) {
         } else if (mc->interval[0] == mc->interval[1]) {
             mc->update(mc);
             mc->interval[1] = mc->interval[0] > 0 ? 1 : -1;
+            updates++;
         } else {
             mc->interval[1]++;
         }
@@ -48,7 +49,8 @@ static void update(MetricManager *self) {
             mc->status
         );
     }
-    op->set_status(op, self->status);
+    if (updates > 0)
+        op->set_status(op, self->status);
 }
 
 

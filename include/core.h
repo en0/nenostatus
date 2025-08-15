@@ -32,6 +32,10 @@
  *   (i) is the current interval counter, which increments with each update call.
  *   The second element (j) is the interval at which the update is triggered. After
  *   the `update()` function is called, the current interval (i) will be reset.
+ *
+ * - const char *name:
+ *   A name for the MetricCollector. This is set by MetricCollector implementations
+ *   to help with trouble shooting.
  */
 typedef struct MetricCollector MetricCollector;
 struct MetricCollector {
