@@ -5,14 +5,20 @@ void cli_test_suite();
 void collector_label_test_suite();
 void core_metric_manager_test_suite();
 void collector_battery_test_suite();
+void core_util_test_suite();
 
 int main() {
 	CU_initialize_registry();
 
-	// Call the test suite functions to register tests
+    // CLI Tests
 	cli_test_suite();
-    collector_label_test_suite();
+
+    // Core Tests
     core_metric_manager_test_suite();
+    core_util_test_suite();
+
+    // Collector Tests
+    collector_label_test_suite();
     collector_battery_test_suite();
 
 	// Run all tests

@@ -12,9 +12,6 @@ static void test_battery_defaults() {
     CU_ASSERT_STRING_EQUAL("/sys/class/power_supply/BAT0/status", unit.status_path);
     CU_ASSERT_EQUAL(unit.base.interval[0], 30);
     CU_ASSERT_EQUAL(unit.base.interval[1], 30);
-
-    unit.base.update((MetricCollector *)&unit);
-    printf(">>>%s<<<", unit.base.status);
 }
 
 void collector_battery_test_suite() {

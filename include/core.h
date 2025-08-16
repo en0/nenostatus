@@ -200,4 +200,51 @@ MetricManager new_metric_manager(OutputStrategy *output_strategy, MetricCollecto
  */
 void initialize_collector_base(MetricCollector *self, const char *name, int seconds, void (*update)(MetricCollector *self));
 
+/**
+ * append_to_buffer Function
+ *
+ * This function appends a formatted string to a specified buffer while managing
+ * the current offset. It allows for flexible string formatting using variadic
+ * arguments, making it suitable for constructing messages or logs dynamically.
+ * The function ensures that the buffer does not overflow by checking the available
+ * space before writing. It should be used whenever there is a need to build
+ * strings incrementally in a safe manner.
+ *
+ * Parameters:
+ *
+ * - char *buffer:
+ *   A pointer to the character array (buffer) where the formatted string will be
+ *   appended. This buffer should be large enough to hold the resulting string.
+ *
+ * - size_t buffer_size:
+ *   The total size of the buffer in bytes. This value is used to prevent buffer
+ *   overflow during the append operation.
+ *
+ * - size_t *offset:
+ *   A pointer to a size_t variable that keeps track of the current position in the
+ *   buffer. This value will be updated by the function to reflect the new offset
+ *   after the string is appended.
+ *
+ * - const char *format:
+ *   A format string that specifies how to format the subsequent variadic arguments.
+ *   This string follows the same conventions as the format string used in printf.
+ *
+ * - ...:
+ *   A variable number of arguments that will be formatted according to the format
+ *   string. These arguments can be of various types, allowing for flexible string
+ *   construction.
+ *
+ * Returns:
+ * - int:
+ *   The number of characters written to the buffer, or -1 if an error occurs.
+ *   Possible error cases include:
+ *   - If the buffer is full and cannot accommodate the new string.
+ *   - If the formatted string exceeds the available space in the buffer, resulting
+ *     in a truncated write.
+ *   - If a formatting error occurs during the string construction.
+ *   In all error cases, the value of offset will remain unchanged and may be
+ *   considered undefined.
+ */
+int append_to_buffer(char *buffer, size_t buffer_size, size_t *offset, const char *format, ...);
+
 #endif
