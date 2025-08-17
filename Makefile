@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Iinclude -lX11 -lm
+CFLAGS = -Wall -Iinclude -lX11 -lm -lasound
 SRC = $(filter-out src/main.c, $(wildcard src/*.c)) $(wildcard src/core/*.c) $(wildcard src/collectors/*.c)
 OBJ = $(SRC:.c=.o)
 TESTS = $(wildcard tests/*.c) $(wildcard tests/core/*.c) $(wildcard tests/collectors/*.c) $(wildcard tests/fixtures/*.c)
