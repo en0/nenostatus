@@ -4,13 +4,14 @@
 #include "collectors/memory_usage.h"
 #include "core.h"
 
-#define MEMORY_BAR_WIDTH 15
 
+static const char *ICON_SET[] = { "󰪞", "󰪟", "󰪠", "󰪡", "󰪢", "󰪣", "󰪤", "󰪥" };
+#define ICON_SET_SIZE ((sizeof(ICON_SET)/sizeof(ICON_SET[0]))-1)
 
 static void update(MetricCollector *self) {
 
-    char utilization_bar[MEMORY_BAR_WIDTH*3+1] = {0};
     long memTotal, memFree, memBuffers, memCached, memAvailable, memUsed;
+    int icon_index;
 
     FILE *fp = fopen("/proc/meminfo", "r");
     if (fp == NULL) {
@@ -25,10 +26,11 @@ static void update(MetricCollector *self) {
     fscanf(fp, "Cached: %ld kB\n", &memCached);
     fclose(fp);
 
-    memUsed = memTotal - memFree - memBuffers - memCached;
 
-    render_bar(utilization_bar, sizeof(utilization_bar), memUsed, memTotal);
-    snprintf(self->status, MAX_COLLECTOR_STATUS_SIZE, " %.2f GB %s", memUsed/(1024.0*1024.0), utilization_bar);
+    memUsed = memTotal - memFree - memBuffers - memCached;
+    icon_index = (ICON_SET_SIZE * memUsed) / memTotal;
+
+    snprintf(self->status, MAX_COLLECTOR_STATUS_SIZE, " %.2f GB %s", memUsed/(1024.0*1024.0), ICON_SET[icon_index]);
 }
 
 MemoryUsageCollector new_memory_usage_collector(void) {
