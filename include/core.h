@@ -247,4 +247,47 @@ void initialize_collector_base(MetricCollector *self, const char *name, int seco
  */
 int append_to_buffer(char *buffer, size_t buffer_size, size_t *offset, const char *format, ...);
 
+/**
+ * render_bar Function
+ *
+ * This function generates a visual progress bar representation based on the
+ * specified value and maximum value. The resulting bar is constructed using
+ * Unicode characters, which take up 3 bytes each. To accommodate this, the
+ * width of the bar is set to be 3 times smaller than the provided buffer size
+ * minus 1, ensuring that there is space for a null terminator at the end of
+ * the string. It is recommended that the buffer size be a multiple of 3 plus 1
+ * (e.g., buffer[31]) to ensure proper alignment and avoid overflow.
+ *
+ * Parameters:
+ *
+ * - char *buffer:
+ *   A pointer to the character array (buffer) where the progress bar will be
+ *   rendered. This buffer should be large enough to hold the resulting bar
+ *   representation, including the null terminator.
+ *
+ * - size_t buffer_size:
+ *   The total size of the buffer in bytes. This value is used to determine the
+ *   maximum width of the progress bar and to prevent buffer overflow during
+ *   the rendering operation. The buffer size should be a multiple of 3 plus 1.
+ *
+ * - double value:
+ *   The current value representing the progress. This value should be less than
+ *   or equal to max_value to ensure accurate rendering of the progress bar.
+ *
+ * - double max_value:
+ *   The maximum value that represents 100% completion. The progress bar will
+ *   be filled proportionally based on the ratio of value to max_value.
+ *
+ * Returns:
+ * - void:
+ *   This function does not return a value. It directly modifies the contents
+ *   of the provided buffer to reflect the rendered progress bar.
+ *
+ * Note:
+ * - The function does not perform error checking on the input parameters. It is
+ *   the caller's responsibility to ensure that the buffer is appropriately sized
+ *   and that the values for value and max_value are valid.
+ */
+void render_bar(char *buffer, size_t buffer_size, double value, double max_value);
+
 #endif

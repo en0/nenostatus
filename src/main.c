@@ -9,7 +9,7 @@
 
 int main(int argc, char *argv[]) {
 
-    MetricCollector sep = new_label("  ");
+    MetricCollector sep = new_label("  ");
     MetricCollector space = new_label(" ");
 
     BatteryCollector bat0 = new_battery_collector("/sys/class/power_supply/BAT0");
