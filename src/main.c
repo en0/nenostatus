@@ -1,4 +1,5 @@
 #include "cli.h"
+#include "collectors/cpu_load.h"
 #include "collectors/storage.h"
 #include "collectors/system_volume.h"
 #include "core.h"
@@ -20,6 +21,7 @@ int main(int argc, char *argv[]) {
     MemoryUsageCollector mem = new_memory_usage_collector();
     StorageCollector disk = new_storage_collector("/");
     SystemVolumeCollector avol = new_system_volume_collector("default", "Master");
+    CPULoadCollector cpu = new_cpu_load_collector();
 
     MetricCollector *collectors[] = {
         (MetricCollector *)&space,
@@ -29,12 +31,15 @@ int main(int argc, char *argv[]) {
         (MetricCollector *)&sep,
         (MetricCollector *)&disk,
         (MetricCollector *)&sep,
+        (MetricCollector *)&cpu,
+        (MetricCollector *)&sep,
         (MetricCollector *)&mem,
         (MetricCollector *)&sep,
         (MetricCollector *)&bat0,
         (MetricCollector *)&sep,
         (MetricCollector *)&date_time_local,
         (MetricCollector *)&space,
+
     };
 
     ArgumentParser ap = new_cli_arg_parser();

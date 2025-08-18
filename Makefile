@@ -40,7 +40,7 @@ watch:
 
 clean:
 	@echo RM src/*.o
-	@rm -f $(OBJ)
+	@rm -f src/main.o $(OBJ)
 	@echo RM $(BIN)
 	@rm -f $(BIN)
 	@echo RM tests/*.o
