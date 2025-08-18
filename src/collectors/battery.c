@@ -39,11 +39,6 @@ const char *ICONS_UNKNOWN[] = {
     "󰂑", "󰂑", "󰂑", "󰂑", "󰂑",
 };
 
-static inline int iclamp(int value, int min, int max) {
-    const int i = value < min ? min : value;
-    return i > max ? max : i;
-}
-
 /**
  * Check if the hardware is present and installed.
  */

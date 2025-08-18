@@ -290,4 +290,34 @@ int append_to_buffer(char *buffer, size_t buffer_size, size_t *offset, const cha
  */
 void render_bar(char *buffer, size_t buffer_size, double value, double max_value);
 
+
+/**
+ * iclamp function
+ *
+ * This function clamps a given interger value into a specified range.  If a value
+ * is below the minimum value, the minimum is returned. If a value is above the
+ * maximum value, the maximum value is returned. If the value falls within the
+ * given range, the value is returned.
+ *
+ * Parameters:
+ *
+ * - int value:
+ *   The value to clamp.
+ *
+ * - int min:
+ *   The minimum value of the range.
+ *
+ * - int max:
+ *   The maximium value of the range.
+ *
+ * - Returns:
+ *   - int:
+ *     If value is less than min, min. Else, if the value is greater than max, max.
+ *     Else, value.
+ */
+static inline int iclamp(int value, int min, int max) {
+    const int i = value < min ? min : value;
+    return i > max ? max : i;
+}
+
 #endif
