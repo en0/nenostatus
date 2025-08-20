@@ -3,6 +3,8 @@
 
 #include <stdbool.h>
 #include <X11/Xlib.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #define MAX_COLLECTOR_STATUS_SIZE 255
 #define MAX_COLLECTORS 64
@@ -319,5 +321,77 @@ static inline int iclamp(int value, int min, int max) {
     const int i = value < min ? min : value;
     return i > max ? max : i;
 }
+
+/**
+ * notify_low function
+ *
+ * This function sends a low-priority notification to the user. The notification
+ * includes an icon, a title, and a message. If the icon is NULL or 0, a default
+ * icon will be used. The notification is sent using the system() call.
+ *
+ * Parameters:
+ *
+ * - const char *icon:
+ *   The icon to display with the notification. If NULL or 0, a default icon is used.
+ *
+ * - const char *title:
+ *   The title of the notification.
+ *
+ * - const char *message:
+ *   The message content of the notification.
+ *
+ * - Returns:
+ *   - void:
+ *     This function does not return a value.
+ */
+void notify_low(const char *icon, const char *title, const char *message);
+
+/**
+ * notify_normal function
+ *
+ * This function sends a normal-priority notification to the user. The notification
+ * includes an icon, a title, and a message. If the icon is NULL or 0, a default
+ * icon will be used. The notification is sent using the system() call.
+ *
+ * Parameters:
+ *
+ * - const char *icon:
+ *   The icon to display with the notification. If NULL or 0, a default icon is used.
+ *
+ * - const char *title:
+ *   The title of the notification.
+ *
+ * - const char *message:
+ *   The message content of the notification.
+ *
+ * - Returns:
+ *   - void:
+ *     This function does not return a value.
+ */
+void notify_normal(const char *icon, const char *title, const char *message);
+
+/**
+ * notify_critical function
+ *
+ * This function sends a critical-priority notification to the user. The notification
+ * includes an icon, a title, and a message. If the icon is NULL or 0, a default
+ * icon will be used. The notification is sent using the system() call.
+ *
+ * Parameters:
+ *
+ * - const char *icon:
+ *   The icon to display with the notification. If NULL or 0, a default icon is used.
+ *
+ * - const char *title:
+ *   The title of the notification.
+ *
+ * - const char *message:
+ *   The message content of the notification.
+ *
+ * - Returns:
+ *   - void:
+ *     This function does not return a value.
+ */
+void notify_critical(const char *icon, const char *title, const char *message);
 
 #endif

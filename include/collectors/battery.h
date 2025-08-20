@@ -43,6 +43,7 @@ typedef struct {
     const char energy_full_path[BATTERY_PATH_BUFFER_SIZE];
     const char present_path[BATTERY_PATH_BUFFER_SIZE];
     const char status_path[BATTERY_PATH_BUFFER_SIZE];
+    bool alarmed;
 } BatteryCollector;
 
 /**

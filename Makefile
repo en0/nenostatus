@@ -7,6 +7,8 @@ TEST_OBJ = $(TESTS:.c=.o)
 TEST_LIBS = -lcunit
 BIN=nenostatus
 TEST_BIN=test_$(BIN)
+PREFIX ?= /usr/local
+BINDIR = $(PREFIX)/bin
 
 .PHONY: tests clean all
 
@@ -47,3 +49,7 @@ clean:
 	@rm -f $(TEST_OBJ)
 	@echo RM $(TEST_BIN)
 	@rm -f $(TEST_BIN)
+
+install: $(BIN)
+	@echo "Installing $(BIN) to $(BINDIR)"
+	@install -m 755 $(BIN) $(BINDIR)/

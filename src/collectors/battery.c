@@ -13,10 +13,12 @@
  * voltage_now          Current voltage of the battery.
  */
 
-#include "collectors/battery.h"
-#include "core.h"
 #include <stdio.h>
 
+#include "collectors/battery.h"
+#include "core.h"
+
+#define ALARM_VALUE 10
 #define ICON_MISSING "󱟨"
 
 const char *ICONS_CHARGING[] = {
@@ -119,6 +121,18 @@ static int get_battery_percent(BatteryCollector *self) {
 }
 
 /**
+ * Send a notification if the battery is super low
+ */
+static inline void notify_if(BatteryCollector *self, int value) {
+    if (value <= ALARM_VALUE && !self->alarmed) {
+        self->alarmed = true;
+        notify_critical("battery", "Battery Alert", "Your battery is below 10%");
+    } else if (value > ALARM_VALUE && self->alarmed) {
+        self->alarmed = false;
+    }
+}
+
+/**
  * Update the battery data and set the status.
  */
 static void update(MetricCollector *self) {
@@ -132,6 +146,7 @@ static void update(MetricCollector *self) {
     int value = get_battery_percent(s);
     int index = iclamp(value / 10, 0, 9);
     const char **icons = get_icons_set(s);
+    notify_if(s, value);
 
     snprintf(self->status, MAX_COLLECTOR_STATUS_SIZE, "%s %i%%", icons[index], value);
 }
@@ -143,5 +158,6 @@ BatteryCollector new_battery_collector(const char *hw_path) {
     snprintf((char *)ret.energy_full_path, BATTERY_PATH_BUFFER_SIZE, "%s/energy_full", hw_path);
     snprintf((char *)ret.energy_now_path, BATTERY_PATH_BUFFER_SIZE, "%s/energy_now", hw_path);
     snprintf((char *)ret.status_path, BATTERY_PATH_BUFFER_SIZE, "%s/status", hw_path);
+    ret.alarmed = false;
     return ret;
 }
