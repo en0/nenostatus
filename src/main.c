@@ -1,14 +1,14 @@
 #include "cli.h"
+#include "core.h"
+#include "collectors/battery.h"
 #include "collectors/cpu_load.h"
+#include "collectors/date_time.h"
+#include "collectors/ip_address.h"
+#include "collectors/label.h"
+#include "collectors/memory_usage.h"
 #include "collectors/storage.h"
 #include "collectors/system_volume.h"
 #include "collectors/thermal.h"
-#include "core.h"
-#include "collectors/ip_address.h"
-#include "collectors/date_time.h"
-#include "collectors/label.h"
-#include "collectors/battery.h"
-#include "collectors/memory_usage.h"
 
 
 int main(int argc, char *argv[]) {

@@ -21,7 +21,7 @@ static const char* get_icon(int value) {
 static inline void notify_if(ThermalCollector *self, int temp) {
     if (temp >= ALARM_VALUE && !self->alarmed) {
         self->alarmed = true;
-        notify_critical(NULL, "Thermal Alert", "Temperature is to high!");
+        notify_critical(NULL, "Thermal Alert", "Temperature is too high!");
     } else if (temp < ALARM_VALUE && self->alarmed) {
         self->alarmed = false;
     }
