@@ -14,12 +14,6 @@
 #define GRAPH_BUFFER_SIZE ((MAX_CPU_CORES * 3) + 1)
 
 // Icon set used to visualize the load for each core.
-// const static char *ICON_SET[] = {
-//     "▁", "▂", "▃", "▄",
-//     "▅", "▆", "▇", "█",
-// };
-// #define ICON_SET_SIZE (sizeof(ICON_SET) / sizeof(ICON_SET[0]))
-
 #define ICON_SET_SIZE 3
 const static char *ICON_SET[] = {
     "𜺀", "𜺄", "𜺅",
@@ -27,20 +21,6 @@ const static char *ICON_SET[] = {
     "𜺊", "𜺎", "𜺏",
 };
 
-/**
- * Get the amount of time elapsed, in nanoseconds, since the last time this
- * function was called. On the first call, the function will return the time
- * since the system booted.
- *
- * Parameters:
- *
- * - CPULoadCollector collector:
- *   Used to store details about the last time this function was called.
- *
- * Returns:
- *
- * - A unsinged 64 bit interger representing the elapsed time in nanoseconds.
- */
 static inline uint64_t get_elapsed_time(CPULoadCollector *collector) {
     struct timespec tp;
     if (clock_gettime(CLOCK_MONOTONIC, &tp) == -1) return 0;
@@ -50,26 +30,6 @@ static inline uint64_t get_elapsed_time(CPULoadCollector *collector) {
     return elapsed_time_ns;
 }
 
-/**
- * get_core_ticks function
- *
- * Compute the cpu time from the open file handle pointing at /proc/stat. This
- * function assumes the file pointer is sitting at the the begining of the line
- * containing stats about a given core.  This function will automatically read
- * past the first cpu metrics to the first core.
- *
- * Parameters:
- *
- * - FILE *fp:
- *   The open file handle pointing at the begining of a line in /proc/stat.
- *
- * - uint64_t *core_time:
- *   A pointer to a unsinged 64 bit interger that will be set with the sum of
- *   user time, user_nice time, and system time, for the given core.
- *
- * Returns:
- * - If successful, the ID of the core is returned. Else, -1.
- */
 static inline int get_core_ticks(FILE *fp, uint64_t *core_time) {
 
     int core_id, read_count;
