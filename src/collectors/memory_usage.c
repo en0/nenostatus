@@ -5,7 +5,8 @@
 #include "core.h"
 
 
-static const char *ICON_SET[] = { "󰪞", "󰪟", "󰪠", "󰪡", "󰪢", "󰪣", "󰪤", "󰪥" };
+//static const char *ICON_SET[] = { "󰪞", "󰪟", "󰪠", "󰪡", "󰪢", "󰪣", "󰪤", "󰪥" };
+static const char *ICON_SET[] = { "󰫃", "󰫄", "󰫅", "󰫆", "󰫇", "󰫈", };
 #define ICON_SET_SIZE ((sizeof(ICON_SET)/sizeof(ICON_SET[0]))-1)
 
 static void update(MetricCollector *self) {

@@ -14,11 +14,18 @@
 #define GRAPH_BUFFER_SIZE ((MAX_CPU_CORES * 3) + 1)
 
 // Icon set used to visualize the load for each core.
+// const static char *ICON_SET[] = {
+//     "▁", "▂", "▃", "▄",
+//     "▅", "▆", "▇", "█",
+// };
+// #define ICON_SET_SIZE (sizeof(ICON_SET) / sizeof(ICON_SET[0]))
+
+#define ICON_SET_SIZE 3
 const static char *ICON_SET[] = {
-    "▁", "▂", "▃", "▄",
-    "▅", "▆", "▇", "█",
+    "𜺀", "𜺄", "𜺅",
+    "𜺈", "𜺌", "𜺍",
+    "𜺊", "𜺎", "𜺏",
 };
-#define ICON_SET_SIZE (sizeof(ICON_SET) / sizeof(ICON_SET[0]))
 
 /**
  * Get the amount of time elapsed, in nanoseconds, since the last time this
@@ -109,6 +116,7 @@ static void update(MetricCollector *self) {
     uint64_t core_ticks, core_time_ns;
     double total_cpu_load = 0;
     int core_id;
+    int x, y;
 
     for(core_id = 0; core_id < MAX_CPU_CORES; core_id++) {
 
@@ -120,8 +128,12 @@ static void update(MetricCollector *self) {
         s->metrics[core_id] = core_ticks;
 
         // Get the index for the icon set and append the icon to the graph_buffer.
-        int d = iclamp(ceil((7 * core_time_ns) / (double)elapsed_time), 0, ICON_SET_SIZE - 1);
-        append_to_buffer(graph_buffer, MAX_COLLECTOR_STATUS_SIZE, &graph_buffer_offset, "%s", ICON_SET[d]);
+        if (core_id % 2 == 0) {
+            x = iclamp(ceil(((ICON_SET_SIZE - 1) * core_time_ns) / (double)elapsed_time), 0, (ICON_SET_SIZE - 1));
+        } else {
+            y = iclamp(ceil(((ICON_SET_SIZE - 1) * core_time_ns) / (double)elapsed_time), 0, (ICON_SET_SIZE - 1));
+            append_to_buffer(graph_buffer, MAX_COLLECTOR_STATUS_SIZE, &graph_buffer_offset, "%s", ICON_SET[(y * ICON_SET_SIZE) + x]);
+        }
 
         // Keep a total of the cpu load so we can compute a system-wide average.
         total_cpu_load += (core_time_ns / (double)elapsed_time);
