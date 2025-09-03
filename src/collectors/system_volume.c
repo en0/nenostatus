@@ -21,13 +21,13 @@ static void update(MetricCollector *self) {
 
     // Open the mixer
     if (snd_mixer_open(&mixer, 0) < 0) {
-        snprintf(self->status, MAX_COLLECTOR_STATUS_SIZE, "COLLECTOR ERROR");
+        snprintf(self->status, MAX_COLLECTOR_STATUS_SIZE, "COLLECTOR ERROR: Failed to open mixer");
         return;
     }
 
     // Attach the mixer to the specified device
     if (snd_mixer_attach(mixer, s->mixer_name) < 0 || snd_mixer_selem_register(mixer, NULL, NULL) < 0 || snd_mixer_load(mixer) < 0) {
-        snprintf(self->status, MAX_COLLECTOR_STATUS_SIZE, "COLLECTOR ERROR");
+        snprintf(self->status, MAX_COLLECTOR_STATUS_SIZE, "COLLECTOR ERROR: Failed to attach to mixer");
         snd_mixer_close(mixer);
         return;
     }
