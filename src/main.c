@@ -9,21 +9,17 @@
 int main(int argc, char *argv[]) {
 
     MetricCollector sep = new_label("  ");
-    MetricCollector space = new_label(" ");
 
-    DateTimeCollector date_time_local = new_date_time_colector(10, "%a %b %e %I:%M:%S %p %Y");
+    DateTimeCollector date_time_local = new_date_time_colector(10, "%a %b %d %I:%M %p %Y");
     MemoryUsageCollector mem = new_memory_usage_collector(10);
     CPULoadCollector cpu = new_cpu_load_collector(1);
 
     MetricCollector *collectors[] = {
-        (MetricCollector *)&space,
         (MetricCollector *)&cpu,
         (MetricCollector *)&sep,
         (MetricCollector *)&mem,
         (MetricCollector *)&sep,
         (MetricCollector *)&date_time_local,
-        (MetricCollector *)&space,
-
     };
 
     ArgumentParser ap = new_cli_arg_parser();
