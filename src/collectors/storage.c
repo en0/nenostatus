@@ -21,11 +21,11 @@ static void update(MetricCollector *self) {
     unsigned long used = total - free;
     double utilization = (double)used / total * 100.0;
 
-    snprintf(self->status, MAX_COLLECTOR_STATUS_SIZE, "󰋊 %.0f%%", round(utilization));
+    snprintf(self->status, MAX_COLLECTOR_STATUS_SIZE, "%.0f%%", round(utilization));
 }
 
-StorageCollector new_storage_collector(const char *path) {
+StorageCollector new_storage_collector(const int interval, const char *path) {
     StorageCollector ret = {.path = path};
-    initialize_collector_base(&ret.base, "Storage Collector", 60, update);
+    initialize_collector_base(&ret.base, interval, update);
     return ret;
 }

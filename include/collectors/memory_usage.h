@@ -22,9 +22,14 @@ typedef struct {
 /**
  * Function to create a new MemoryUsageCollector.
  *
+ * Parameters:
+ *
+ * - const int interval:
+ *   The interval, in seconds, at which this component should be updated.
+ *
  * This function creates a metric collector that retrieves and displays
  * memory utilization metrics.
  */
-MemoryUsageCollector new_memory_usage_collector(void);
+MemoryUsageCollector new_memory_usage_collector(const int interval);
 
 #endif // MEMORY_USAGE_H

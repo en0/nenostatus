@@ -13,9 +13,6 @@ static void update(MetricCollector *self) {
     time_t raw_time;
     struct tm *time_info;
 
-    if (s->tzone != NULL)
-        setenv("TZ", s->tzone, 1);
-
     time(&raw_time);
     time_info = localtime(&raw_time);
 
@@ -26,14 +23,16 @@ static void update(MetricCollector *self) {
     }
 }
 
-DateTimeCollector new_date_time_colector_tz(const char *strfmt, const char *tzone) {
-    DateTimeCollector ret = {.strfmt = strfmt, .tzone = tzone};
-    initialize_collector_base(&ret.base, "Date Time Collector", 30, update);
+DateTimeCollector new_date_time_colector_tz(const int interval, const char *strfmt, const char *tzone) {
+    DateTimeCollector ret = {.strfmt = strfmt};
+    initialize_collector_base(&ret.base, interval, update);
+    setenv("TZ", tzone, 1);
+    tzset();
     return ret;
 }
 
-DateTimeCollector new_date_time_colector(const char *strfmt) {
-    DateTimeCollector ret = {.strfmt = strfmt, .tzone = NULL};
-    initialize_collector_base(&ret.base, "Date Time Collector", 30, update);
+DateTimeCollector new_date_time_colector(const int interval, const char *strfmt) {
+    DateTimeCollector ret = {.strfmt = strfmt};
+    initialize_collector_base(&ret.base, interval, update);
     return ret;
 }

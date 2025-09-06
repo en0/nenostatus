@@ -62,7 +62,7 @@ static void update(MetricCollector *self) {
 
     // Buffer used to store the visualized output of each CPU core and an
     // offset used to keep track during append operations.
-    char graph_buffer[(MAX_CPU_CORES*3)+1] = {0};
+    char graph_buffer[GRAPH_BUFFER_SIZE] = {0};
     size_t graph_buffer_offset = 0;
 
     FILE *fp = fopen("/proc/stat", "r");
@@ -99,13 +99,13 @@ static void update(MetricCollector *self) {
         total_cpu_load += (core_time_ns / (double)elapsed_time);
     }
 
-    snprintf(self->status, MAX_COLLECTOR_STATUS_SIZE, " %.0lf%% %s", (total_cpu_load / core_id* 100), graph_buffer);
+    snprintf(self->status, MAX_COLLECTOR_STATUS_SIZE, "%.0lf%% %s", (total_cpu_load / core_id* 100), graph_buffer);
     fclose(fp);
 }
 
-CPULoadCollector new_cpu_load_collector() {
+CPULoadCollector new_cpu_load_collector(const int interval) {
     CPULoadCollector ret = {0};
-    initialize_collector_base(&ret.base, "CPU Load", 1, update);
+    initialize_collector_base(&ret.base, interval, update);
     ret.user_hz = sysconf(_SC_CLK_TCK);
     return ret;
 }

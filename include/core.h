@@ -34,10 +34,6 @@
  *   (i) is the current interval counter, which increments with each update call.
  *   The second element (j) is the interval at which the update is triggered. After
  *   the `update()` function is called, the current interval (i) will be reset.
- *
- * - const char *name:
- *   A name for the MetricCollector. This is set by MetricCollector implementations
- *   to help with trouble shooting.
  */
 typedef struct MetricCollector MetricCollector;
 struct MetricCollector {
@@ -45,7 +41,6 @@ struct MetricCollector {
     void (*set_interval)(MetricCollector *self, int seconds);
     char status[MAX_COLLECTOR_STATUS_SIZE];
     int interval[2];
-    const char *name;
 };
 
 /**
@@ -200,7 +195,7 @@ MetricManager new_metric_manager(OutputStrategy *output_strategy, MetricCollecto
  *   the metric data. This function will be invoked at the specified intervals to gather
  *   and process the relevant metrics.
  */
-void initialize_collector_base(MetricCollector *self, const char *name, int seconds, void (*update)(MetricCollector *self));
+void initialize_collector_base(MetricCollector *self, int seconds, void (*update)(MetricCollector *self));
 
 /**
  * append_to_buffer Function
