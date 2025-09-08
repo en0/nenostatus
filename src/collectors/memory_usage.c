@@ -36,8 +36,8 @@ static void update(MetricCollector *self) {
     snprintf(self->status, MAX_COLLECTOR_STATUS_SIZE, "%.2f GB %s", memUsed/(1024.0*1024.0), ICON_SET[icon_index]);
 }
 
-MemoryUsageCollector new_memory_usage_collector(const int interval) {
+MemoryUsageCollector new_memory_usage_collector() {
     MemoryUsageCollector ret;
-    initialize_collector_base(&ret.base, interval, update);
+    initialize_collector_base(&ret.base, update);
     return ret;
 }

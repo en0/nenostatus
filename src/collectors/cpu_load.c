@@ -103,9 +103,9 @@ static void update(MetricCollector *self) {
     fclose(fp);
 }
 
-CPULoadCollector new_cpu_load_collector(const int interval) {
+CPULoadCollector new_cpu_load_collector() {
     CPULoadCollector ret = {0};
-    initialize_collector_base(&ret.base, interval, update);
+    initialize_collector_base(&ret.base, update);
     ret.user_hz = sysconf(_SC_CLK_TCK);
     return ret;
 }

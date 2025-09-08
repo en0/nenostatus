@@ -42,9 +42,6 @@ typedef struct {
  *
  * Parameters:
  *
- * - const int interval:
- *   The interval, in seconds, at which this component should be updated.
- *
  * - const char *strfmt:
  *   A string format specifier that defines how the date and time metrics should
  *   be formatted. This format will be used when generating the output for the
@@ -63,7 +60,7 @@ typedef struct {
  *   and timezone. The caller is responsible for managing the lifecycle of the
  *   returned collector.
  */
-DateTimeCollector new_date_time_colector_tz(const int interval, const char *strfmt, const char *tzone);
+DateTimeCollector new_date_time_colector_tz(const char *strfmt, const char *tzone);
 
 /**
  * new_date_time_collector Function
@@ -74,9 +71,6 @@ DateTimeCollector new_date_time_colector_tz(const int interval, const char *strf
  * customized output of the collected time data.
  *
  * Parameters:
- *
- * - const int interval:
- *   The interval, in seconds, at which this component should be updated.
  *
  * - const char *strfmt:
  *   A string format specifier that defines how the date and time metrics should
@@ -90,6 +84,6 @@ DateTimeCollector new_date_time_colector_tz(const int interval, const char *strf
  *   The caller is responsible for managing the lifecycle of the returned
  *   collector.
  */
-DateTimeCollector new_date_time_colector(const int interval, const char *strfmt);
+DateTimeCollector new_date_time_colector(const char *strfmt);
 
 #endif

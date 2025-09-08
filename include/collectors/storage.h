@@ -34,9 +34,6 @@ typedef struct {
  *
  * Parameters:
  *
- * - const int interval:
- *   The interval, in seconds, at which this component should be updated.
- *
  * - const char *path:
  *   A string representing the path to monitor.
  *
@@ -45,6 +42,6 @@ typedef struct {
  * - A StorageCollector instance that is initialized with the provided path.
  *   The caller is responsible for managing the lifecycle of the returned collector.
  */
-StorageCollector new_storage_collector(const int interval, const char *path);
+StorageCollector new_storage_collector(const char *path);
 
 #endif // STORAGE_H

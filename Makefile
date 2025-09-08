@@ -41,11 +41,11 @@ watch:
 	done
 
 clean:
-	@echo RM src/*.o
+	@echo RM 'src/**/*.o'
 	@rm -f src/main.o $(OBJ)
 	@echo RM $(BIN)
 	@rm -f $(BIN)
-	@echo RM tests/*.o
+	@echo RM 'tests/**/*.o'
 	@rm -f $(TEST_OBJ)
 	@echo RM $(TEST_BIN)
 	@rm -f $(TEST_BIN)

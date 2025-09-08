@@ -186,16 +186,12 @@ MetricManager new_metric_manager(OutputStrategy *output_strategy, MetricCollecto
  *   A string representing the name of the collector. This name is used for identification
  *   and troubleshooting purposes.
  *
- * - int seconds:
- *   An integer representing the update interval in seconds. This value determines how
- *   frequently the collector's update function will be called.
- *
  * - void (*update)(MetricCollector *self):
  *   A function pointer to the update function that will be responsible for collecting
  *   the metric data. This function will be invoked at the specified intervals to gather
  *   and process the relevant metrics.
  */
-void initialize_collector_base(MetricCollector *self, int seconds, void (*update)(MetricCollector *self));
+void initialize_collector_base(MetricCollector *self, void (*update)(MetricCollector *self));
 
 /**
  * append_to_buffer Function
@@ -388,5 +384,45 @@ void notify_normal(const char *icon, const char *title, const char *message);
  *     This function does not return a value.
  */
 void notify_critical(const char *icon, const char *title, const char *message);
+
+ /**
+ * MetricCollector periodic
+ *
+ * This function will apply a periodic interval to a metric collector such that it is only called
+ * every 'interval' seconds.
+ *
+ * Parameters:
+ *
+ * - MetricCollector* collector
+ *   A pointer to a MetricCollector to which the schedule will be applied.
+ *
+ * - const int interval:
+ *   An integer that specifies the interval, in seconds, at which this collector should be updated.
+ *
+ * Returns:
+ *   The same pointer as passed in as the MetricCollector.
+ */
+MetricCollector *periodic(MetricCollector* collector, const int interval);
+
+ /**
+ * MetricCollector onsignal
+ *
+ * This function will setup a signal handler that, when signaled, will trigger an update to the
+ * given collector.
+ *
+ * Parameters:
+ *
+ * - MetricCollector* collector
+ *   A pointer to a MetricCollector to which the schedule will be applied.
+ *
+ * - const int rtsig:
+ *   An integer between SIGRTMIN and SIGRTMAX that identifies the value of the signal handler
+ *   associated with this metric collector. Be sure that this value is unique to all other
+ *   collectors.
+ *
+ * Returns:
+ *   The same pointer as passed in as the MetricCollector.
+ */
+MetricCollector *onsignal(MetricCollector* collector, const int rtsig);
 
 #endif

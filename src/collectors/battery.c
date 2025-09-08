@@ -151,9 +151,9 @@ static void update(MetricCollector *self) {
     snprintf(self->status, MAX_COLLECTOR_STATUS_SIZE, "%s %i%%", icons[index], value);
 }
 
-BatteryCollector new_battery_collector(const int interval, const char *hw_path) {
+BatteryCollector new_battery_collector(const char *hw_path) {
     BatteryCollector ret = {0};
-    initialize_collector_base(&ret.base, interval, update);
+    initialize_collector_base(&ret.base, update);
     snprintf((char *)ret.present_path, BATTERY_PATH_BUFFER_SIZE, "%s/present", hw_path);
     snprintf((char *)ret.energy_full_path, BATTERY_PATH_BUFFER_SIZE, "%s/energy_full", hw_path);
     snprintf((char *)ret.energy_now_path, BATTERY_PATH_BUFFER_SIZE, "%s/energy_now", hw_path);

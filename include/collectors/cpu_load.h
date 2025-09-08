@@ -43,16 +43,11 @@ typedef struct {
  * This function creates and initializes a new instance of a CPULoadCollector,
  * which is responsible for collecting and displaying the current CPU load for each core.
  *
- * Parameters:
- *
- * - const int interval:
- *   The interval, in seconds, at which this component should be updated.
- *
  * Returns:
  *
  * - A CPULoadCollector instance that is initialized with the provided core count.
  *   The caller is responsible for managing the lifecycle of the returned collector.
  */
-CPULoadCollector new_cpu_load_collector(const int interval);
+CPULoadCollector new_cpu_load_collector();
 
 #endif // CPU_LOAD_H

@@ -37,9 +37,6 @@ typedef struct {
  *
  * Parameters:
  *
- * - const int interval:
- *   The interval, in seconds, at which this component should be updated.
- *
  * - const char *hw_path:
  *   A string representing the path to the hardware sensor to monitor. This path
  *   should point to a valid thermal zone in the system, typically located in
@@ -51,6 +48,6 @@ typedef struct {
  *   The caller is responsible for managing the lifecycle of the returned collector.
  */
 
-ThermalCollector new_thermal_collector(const int interval, const char *hw_path);
+ThermalCollector new_thermal_collector(const char *hw_path);
 
 #endif

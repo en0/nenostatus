@@ -56,9 +56,6 @@ typedef struct {
  *
  * Parameters:
  *
- * - const int interval:
- *   The interval, in seconds, at which this component should be updated.
- *
  * - const char *hw_path:
  *   A string representing the hardware path to the battery information. This path
  *   is used by the collector to access the relevant data from the system, ensuring
@@ -69,6 +66,6 @@ typedef struct {
  * - A BatteryCollector instance that is initialized with the provided hardware path.
  *   The caller is responsible for managing the lifecycle of the returned collector.
  */
-BatteryCollector new_battery_collector(const int interval, const char *hw_path);
+BatteryCollector new_battery_collector(const char *hw_path);
 
 #endif

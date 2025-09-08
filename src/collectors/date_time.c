@@ -23,16 +23,16 @@ static void update(MetricCollector *self) {
     }
 }
 
-DateTimeCollector new_date_time_colector_tz(const int interval, const char *strfmt, const char *tzone) {
+DateTimeCollector new_date_time_colector_tz(const char *strfmt, const char *tzone) {
     DateTimeCollector ret = {.strfmt = strfmt};
-    initialize_collector_base(&ret.base, interval, update);
+    initialize_collector_base(&ret.base, update);
     setenv("TZ", tzone, 1);
     tzset();
     return ret;
 }
 
-DateTimeCollector new_date_time_colector(const int interval, const char *strfmt) {
+DateTimeCollector new_date_time_colector(const char *strfmt) {
     DateTimeCollector ret = {.strfmt = strfmt};
-    initialize_collector_base(&ret.base, interval, update);
+    initialize_collector_base(&ret.base, update);
     return ret;
 }

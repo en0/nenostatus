@@ -45,9 +45,9 @@ static void update(MetricCollector *self) {
     snprintf(self->status, MAX_COLLECTOR_STATUS_SIZE, "%s %d󰔄", get_icon(temp), temp / 1000);
 }
 
-ThermalCollector new_thermal_collector(const int interval, const char *hw_path) {
+ThermalCollector new_thermal_collector(const char *hw_path) {
     ThermalCollector ret = {0};
-    initialize_collector_base(&ret.base, interval, update);
+    initialize_collector_base(&ret.base, update);
     ret.hw_path = hw_path;
     ret.alarmed = false;
     return ret;
