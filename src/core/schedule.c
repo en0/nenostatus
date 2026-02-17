@@ -6,7 +6,7 @@
 static MetricCollector* installed_signals[NSIG] = {0};
 
 static void signal_handler(int rtsig) {
-    printf("Got a signal: %d\n", rtsig);
+    fprintf(stderr, "Got a signal: %d\n", rtsig);
     MetricCollector* collector = installed_signals[rtsig];
     collector->update(collector);
 }

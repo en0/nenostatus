@@ -9,7 +9,8 @@
  * @param status A char ptr to the status line to print.
  */
 static void print_status(OutputStrategy *self, const char *status) {
-    printf("%s\n", status);
+    printf("%s", status);
+    fflush(stdout);
 }
 
 
