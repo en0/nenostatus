@@ -19,8 +19,10 @@ int main(int argc, char *argv[]) {
     MemoryUsageCollector mem = new_memory_usage_collector();
     CPULoadCollector cpu = new_cpu_load_collector();
     ShellCollector sound = SCRIPT("audio");
+    ShellCollector clip = SCRIPT("clip-record");
 
     MetricCollector *collectors[] = {
+        onsignal(&clip.base, RTSIG(1)),       &sep,
         onsignal(&sound.base, RTSIG(0)),      &sep,
         periodic(&cpu.base, 1),               &sep,
         periodic(&mem.base, 10),              &sep,
